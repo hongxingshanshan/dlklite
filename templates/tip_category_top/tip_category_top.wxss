@@ -1,0 +1,15 @@
+.tip_category_top{
+  display: flex;
+  align-items: center;
+}
+.tip_category_top_line {
+  background-color: #FF5722;
+  width: 10rpx;
+  height: 34rpx;
+  margin-right: 10rpx;
+}
+.category_text{
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}

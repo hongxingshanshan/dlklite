@@ -1,0 +1,6 @@
+<template name="tip_line">
+  <view class='tip_line'>
+    <image class='icon' src='/images/goods_detail/gou.png'/>
+    <text class='activity'>{{activity}}</text>
+  </view>
+</template>

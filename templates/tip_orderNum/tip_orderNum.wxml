@@ -1,0 +1,21 @@
+<template name="tip_orderNum">
+  <view class='tip_orderNum'>
+     <view class='orderNumber'>
+       <view>
+         <text>订单编号：E3278838794849748938</text>
+       </view>
+       <view>
+         <text>复制</text>
+       </view>
+     </view>
+     <view>
+       <text>下单时间：2018-08-28 16:40</text>
+     </view>
+     <view>
+       <text>支付方式：微信支付</text>
+     </view>
+      <view wx:if="{{true}}">
+       <text>上课码核销时间：2018-08-29 08:40</text>
+     </view>
+  </view>
+</template>

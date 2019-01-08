@@ -1,0 +1,24 @@
+{
+  "pages": [
+    "pages/goods_detail_1/goods_detail_1",
+    "pages/order_buy/order_buy",
+    "pages/order_details/order_details",
+    "pages/all_types/all_types",
+    "pages/join_org/join_org",
+    "pages/buy_onself/buy_onself",
+    "pages/success_buy/success_buy",
+    "pages/code_canceled/code_canceled"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F6F6F6"
+  }
+}

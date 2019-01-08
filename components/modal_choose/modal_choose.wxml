@@ -1,0 +1,8 @@
+<!-- 遮罩层 选择购物弹窗 -->
+<view class='mask' wx:if='{{choose_show}}' bindtap='close'>
+</view>
+  <view class='modal-content' style='height:{{height}}' wx:if='{{choose_show}}'>
+    <view class='main-content'>
+      <slot></slot>
+    </view>
+  </view>

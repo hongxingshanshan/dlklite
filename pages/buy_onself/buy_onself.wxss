@@ -1,0 +1,134 @@
+/* -----------------  导入需要使用的模板样式  -------------------- */
+@import '/templates/tip_verify/tip_verify.wxss';
+
+/* ----------------  常用样式  --------------------- */
+page{
+  background-color: #F6F6F6;
+}
+
+.flexCenter {
+  display: flex;
+  align-items: center;
+}
+.borderTop {
+  border-top: 1px solid #B2B2B2;
+}
+.borderTop1 {
+  border-top: 1px solid #F6F6F6;
+}
+.bg {
+  height: 16rpx;
+  background-color: #F6F6F6;
+}
+.color_9 {
+  color: #999;
+}
+.color_f {
+  color: #fff;
+}
+.redcolor {
+  color: #FF5722;
+  font-size: 14px;
+}
+.size18 {
+  font-size: 18px;
+  color: #FF5722;
+}
+/* ------------------  页面样式 ----------------------- */
+
+/*------------- 1.0  商户信息 ------------*/
+.verify_merchant {
+  height: 104rpx;
+  font-size: 16px;
+  color: #333;
+  background-color: #fff;
+
+}
+.merchant_header {
+  margin-left: 32rpx;
+  margin-right: 12rpx;
+}
+.merchant_header image {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+/*-------------- 2.0  产品信息 --------------*/
+
+
+
+/* -----------  3.0 购买信息  -------------- */
+.verify_buy {
+  height: 100%;
+  padding: 30rpx 32rpx 0 30rpx;
+  font-size: 14px;
+  line-height: 40rpx;
+  color: #666;
+  background-color: #fff;
+
+}
+.verify_buy view {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 32rpx;
+}
+.verify_buy .course_validity {
+  display: inline-block;
+  text-align: right;
+  margin-bottom: 0;
+}
+.verify_buy .course_validity text{
+  display: block;
+}
+.verify_buy .rightStr {
+  text-align: right;
+  display: inline-block;
+  width: 500rpx;
+}
+/* ---------------5.0  单独购买价格------------------- */
+.onselfPrice{
+  background-color: #fff;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #333;
+  padding: 0 30rpx;
+}
+
+/* ---------------6.0  提示购买时间  ----------------- */
+
+.verify_warn {
+  height: 84rpx;
+  background-color: #FFEEE8;
+  color: #FF5722;
+  font-size: 14px;
+  justify-content: center;
+  margin-bottom: 260rpx;
+}
+
+
+  /* ---------------7.0  立即支付  ----------------- */
+.verify_buys {
+  height: 112rpx;
+  font-size: 15px;
+  display: flex;
+  position: fixed;
+  width: 750rpx;
+  right: 0;
+  bottom: 0;
+}
+.verify_buys .buy_prices {
+  flex: 1;
+  text-align: center;
+  justify-content: center;
+  height: 100%;
+  background-color: #fff;
+}
+.verify_buys .buy_btn {
+  width: 320rpx;
+  justify-content: center;
+  background-color: #FF5722;
+  height: 100%;
+}

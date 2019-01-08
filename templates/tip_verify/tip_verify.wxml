@@ -1,0 +1,28 @@
+<template name="tip_verify">
+  <view class='tip_verify'>
+    <view class='verify_product'>
+      <view class='product_img'>
+        <image src='/images/order_buy/project_logo.png' />
+      </view>
+      <view class='product_info'>
+        <view class='product_title'>
+          <text>编程猫少儿青青编程</text>
+        </view>
+        <view class='product_lesson'>
+          <text>24节课</text>
+          <text> | </text>
+          <text>适用2-4岁</text>
+          <text> | </text>
+          <text>12人小班</text>
+        </view>
+        <view class='product_time'>
+          <text>2018年3月16日-2018年7月1日</text>
+        </view>
+        <view class='product_date'>
+          <text>周一周二</text>
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;&nbsp;&nbsp;18：00-20：00</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

@@ -1,0 +1,75 @@
+{
+	"description": "项目配置文件",
+	"packOptions": {
+		"ignore": []
+	},
+	"setting": {
+		"urlCheck": false,
+		"es6": true,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true,
+		"autoAudits": false
+	},
+	"compileType": "miniprogram",
+	"libVersion": "2.4.3",
+	"appid": "wx07ca1979e6f130c4",
+	"projectname": "dlklite",
+	"debugOptions": {
+		"hidedInDevtools": []
+	},
+	"isGameTourist": false,
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": [
+				{
+					"id": -1,
+					"name": "确认与支付订单",
+					"pathName": "pages/order_buy/order_buy",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "订单详情",
+					"pathName": "pages/order_details/order_details",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "全部类型",
+					"pathName": "pages/all_types/all_types",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "单独购买确认与支付页面",
+					"pathName": "pages/buy_onself/buy_onself",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "单独购买成功",
+					"pathName": "pages/success_buy/success_buy",
+					"query": ""
+				}
+			]
+		}
+	}
+}

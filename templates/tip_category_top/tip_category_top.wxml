@@ -1,0 +1,6 @@
+<template name="tip_category_top">
+  <view class='tip_category_top'>
+    <view class='tip_category_top_line'></view>
+    <text class='category_text'>{{category}}</text>
+  </view>
+</template>

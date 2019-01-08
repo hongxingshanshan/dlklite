@@ -1,0 +1,105 @@
+<!-- ----------------导入需要使用的模板 ------------------ -->
+<import src='/templates/tip_onselfBuy_header/tip_onselfBuy_header.wxml' />
+<import src='/templates/tip_verify/tip_verify.wxml' />
+<import src='/templates/tip_orderNum/tip_orderNum.wxml' />
+
+<!-- ---------------1.0  顶部 购买成功提示---------------- -->
+<view class='tip_header'>
+  <template is="tip_onselfBuy_header" />
+</view>
+
+<!-- ---------------2.0  生成二维码---------------------- -->
+<view class='createQR' wx:if="{{false}}">
+  <view>
+    <view class='QRcode'>
+      <image src='/images/onselfBuy/QRcode.png' />
+    </view>
+    <view class='hint'>
+       <text>到店后出示上课码给老师扫一扫</text>
+    </view>
+  </view>
+</view>
+
+<!-- ---------------3.0  商户信息 --------------------- -->
+  <view bindtap='locationtap'>
+    <view class='merchant_info'>
+      <view class='info_gg'>
+        <view class='merchant_logo'>
+          <image src='/images/goods_detail/location.png' />
+        </view>
+        <view class='merchant_infos'>
+          <view class='merchant_title'>
+            <text>创意星球少儿培训中心</text>
+            <image src='/images/goods_detail/you.png' />
+          </view>
+          <view id='location'>
+            <view class='merchant_ address'>
+              <text>南山区华翰科技616</text>
+            </view>
+            <view class='distance'>
+              <text class='distanceStr'>距您5.7km</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class='more'>
+        <view class='right_arrows'>
+          <image src='/images/goods_detail/right_arrow.png' />
+        </view>
+      </view>
+    </view>
+  </view>
+
+
+<!-- ----------------4.0  产品信息------------------- -->
+<view class='projectInfo'>
+  <template is="tip_verify" data="{{...item}}" />
+</view>
+
+<!-- ----------------5.0  实付金额------------------- -->
+<view class='realityPay'>
+  <view>
+    <text>实付金额：</text>
+    <text class='themeColor'>￥</text>
+    <text class='themeColor size18'>188</text>
+  </view>
+  <view class='refundBtn' wx:if="{{false}}">
+    <text>申请退款</text>
+  </view>
+  <view class='buyAgain' wx:elif="{{false}}">
+    <text>再次购买</text>
+  </view>
+  <view class='stayPay' wx:elif="{{true}}">
+    <view class='cancelOrder'>
+    <text>取消订单</text>
+  </view>
+  <view class='pay'>
+    <text>去支付</text>
+  </view>
+  </view>
+  
+</view>
+<view class='warn' wx:if="{{false}}">
+ <text class='themeColor'>*</text>
+ <text>本课程为</text>
+ <text class='activity'>课前随时退</text>
+ <text>，在上课码还没被核销前，随时退款</text>
+</view>
+
+<!-- ----------------6.0  订单号 ---------------------- -->
+<view class='tip_orderNumBox'>
+  <template is="tip_orderNum" />
+</view>
+
+<!-- ----------------7.0  联系方式 -------------------- -->
+<view class='contactWay'>
+   <view class='Contact_merchant'>
+       <image src='/images/onselfBuy/contactMerchant.png'/>
+       <text>联系商家</text>
+   </view>
+   <view class='y_line'></view>
+   <view class='official_service'>
+     <image src='/images/onselfBuy/service.png'/>
+       <text>官方客服</text>
+   </view>
+</view>

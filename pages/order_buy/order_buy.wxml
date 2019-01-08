@@ -1,0 +1,129 @@
+<!-- ----------------导入需要使用的模板 ------------------ -->
+<import src='/templates/tip_verify/tip_verify.wxml' />
+
+<!-- 确认与支付订单  ---页面   -->
+
+
+<!-- 1.0  商户信息  -->
+<view class='verify_merchant flexCenter borderTop'>
+  <view class='merchant_header'>
+    <image src='/images/order_buy/sj_header.png' />
+  </view>
+  <view>
+    <text>创意星球少儿培训中心</text>
+  </view>
+</view>
+
+<!-- 2.0  产品信息 -->
+<view>
+  <template is="tip_verify" data="{{...item}}" />
+</view>
+
+<!-- 3.0  购买信息 -->
+<view class='verify_buy'>
+  <view>
+    <text>课程名称</text>
+    <text>编程猫少儿青青课程</text>
+  </view>
+  <view>
+    <text>课次课时</text>
+    <text>共12节课</text>
+  </view>
+  <view>
+    <text>上课时间</text>
+    <text>南山区华翰科技A栋611</text>
+  </view>
+  <view>
+    <text>拼课规模</text>
+    <text>2人拼</text>
+  </view>
+  <view>
+    <text>课程有效期</text>
+    <text class='course_validity'>
+            <text>2018年5月1日-2018年9月1日</text>
+    <text>允许陌生人参团</text>
+    </text>
+  </view>
+</view>
+<view class='bg'></view>
+
+<!-- 4.0 店铺优惠 -->
+<view class='verify_discounts'>
+  <view>
+    <view>
+      <text class="color_3">店铺优惠活动</text>
+    </view>
+    <view>
+      <text>买10赠1</text>
+      <text> ></text>
+    </view>
+  </view>
+  <view class='borderTop1'>
+    <view>
+      <text class="color_3">我的优惠卷</text>
+    </view>
+    <view>
+      <text>满99减10</text>
+      <text> ></text>
+    </view>
+  </view>
+</view>
+<view class='bg'></view>
+
+
+<!-- 5.0  确认使用优惠以及价格 -->
+<view class='verify_price'>
+  <view>
+    <text>2人拼课</text>
+    <text>￥526</text>
+  </view>
+  <view>
+    <text>满10赠1</text>
+    <text class='font2'>+1课次</text>
+  </view>
+  <view>
+    <text>满99减10</text>
+    <text class='font2'>-￥10</text>
+  </view>
+</view>
+
+<!-- 6.0  提示购买时间 -->
+<view class='verify_warn flexCenter'>
+  <text>请在23：23分钟内完成支付，否则订单会被自动取消</text>
+</view>
+
+<!-- 7.0  微信支付方式 -->
+<view class='wx_pay'>
+  <view class='verify_pay flexCenter'>
+    <view class='flexCenter'>
+      <image src='/images/order_buy/wx.png' />
+      <text>微信</text>
+    </view>
+    <view class='yuan'>
+      <image src='/images/order_buy/dx.png' />
+    </view>
+  </view>
+  <view class='verify_pay flexCenter'>
+    <view class='flexCenter'>
+      <image src='/images/order_buy/wxfirend.png' />
+      <text>微信好友代付</text>
+    </view>
+    <view class='yuan'>
+      <image src='/images/order_buy/dx_wei.png' />
+    </view>
+  </view>
+</view>
+
+
+<!-- 8.0  立即支付 -->
+<view class='verify_buys borderTop1'>
+  <view class='buy_prices flexCenter'>
+    <text class='color_3'>实付：</text>
+    <text class='redcolor'>￥</text>
+    <text class='size18'>526</text>
+    <text class='color_9'>（已优惠￥10）</text>
+  </view>
+  <view class='buy_btn flexCenter color_f'>
+    <text>立即支付</text>
+  </view>
+</view>

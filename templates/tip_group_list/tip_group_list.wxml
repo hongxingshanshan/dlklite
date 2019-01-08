@@ -1,0 +1,72 @@
+<template name="group_list">
+  <view class='groupingBox'>
+    <view class='pt_people'>
+      <view class='pt_people_info'>
+        <view class='pt_header'>
+          <image src='{{userInfo.userIcon}}' />
+        </view>
+        <view>
+          <text class='pt_name'>{{phone.toHide(userInfo.mobile)}}</text>
+        </view>
+      </view>
+      <view class='groupingRight'>
+        <view class='short'>
+          <view class='shortNum'>
+            <text>{{tgPurchaseNum}}人团 还差</text>
+            <text class='peopleNum'>{{remainingNum}}人</text>
+            <text>成团</text>
+          </view>
+          <view>
+            <text class='sy_time'>剩余{{failObj.hou}}时{{failObj.min}}分{{failObj.sec}}秒</text>
+
+          </view>
+        </view>
+        <view class='go_pt'>
+          <text>去拼课</text>
+        </view>
+      </view>
+    </view>
+    <view class='groupingLine'></view>
+  </view>
+</template>    
+<!-- 使用wxs 手机号码中间四位显示为*号 -->
+<wxs module="phone">
+  var toHide = function(array) {
+    var mphone = array.substring(0, 3) + '****' + array.substring(7);
+    return mphone;
+  }
+  module.exports.toHide = toHide;
+</wxs>
+
+<!-- 测试数据 -->
+<!-- <template name="group_list">
+  <view class='groupingBox'>
+    <view class='pt_people'>
+      <view class='pt_people_info'>
+        <view class='pt_header'>
+          <image src='/images/goods_detail/list_header.png' />
+        </view>
+        <view>
+          <text class='pt_name'>{{phone.toHide('13870125589')}}</text>
+        </view>
+      </view>
+      <view class='groupingRight'>
+        <view class='short'>
+          <view class='shortNum'>
+            <text>4人团 还差</text>
+            <text class='peopleNum'>1人</text>
+            <text>成团</text>
+          </view>
+          <view>
+            <text class='sy_time'>剩余23:34:56</text>
+
+          </view>
+        </view>
+        <view class='go_pt'>
+          <text>去拼课</text>
+        </view>
+      </view>
+    </view>
+    <view class='groupingLine'></view>
+  </view>
+</template> -->

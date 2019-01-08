@@ -1,0 +1,21 @@
+/* --------------------  常用共有样式 --------------------------*/
+.fontsize18 {
+  font-size: 18px;
+  line-height: 25px;
+}
+
+/* ---------------------单独购买 头部------------------------- */
+.tip_header {
+  width: 720rpx;
+  height: 164rpx;
+  color: #fff;
+  font-size: 14px;
+  background: linear-gradient(to right, rgb(255, 87, 34), rgb(254, 120, 50));
+  display: flex;
+  align-items: center;
+  padding-left: 30rpx;
+  line-height: 20px;
+}
+.dec {
+  opacity: 0.7;
+}

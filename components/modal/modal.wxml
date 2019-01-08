@@ -1,0 +1,13 @@
+<!-- 弹窗 组件 结构 -->
+<view class='mask' wx:if='{{show}}' bindtap='close'>
+</view>
+<view wx:if='{{show}}' class='modal-content' style='height:{{height}};width:{{width}};dispaly:position'>
+  <view class='main-content'>
+    <slot></slot>
+  </view>
+  <view class='modal-btn-wrapper' wx:if="{{show_btns}}">
+   <view class='cancel-btn'  bindtap='cancel'>取消</view>
+   <view class='confirm-btn' bindtap='confirm' >呼叫</view>
+  </view> 
+</view>
+

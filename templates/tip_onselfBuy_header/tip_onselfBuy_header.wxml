@@ -1,0 +1,12 @@
+<template name="tip_onselfBuy_header">
+   <view class='tip_header'>
+     <view>
+       <view class='fontsize18'>
+        <text>购买成功，已生成上课码！</text>
+     </view>
+     <view>
+        <text class='dec'>让老师扫描下方上课码，核销后就可以正常上课了哦</text>
+     </view>
+     </view>
+   </view>
+</template>

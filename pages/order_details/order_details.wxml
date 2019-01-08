@@ -1,0 +1,67 @@
+<!-- ----------------导入需要使用的模板 ------------------ -->
+<import src='/templates/tip_verify/tip_verify.wxml' />
+
+
+
+<!-- 1.0  订单状态分类 -->
+<view class='order_categorys'>
+  <view class="container_page">
+    <!-- tab导航栏 -->
+    <!-- scroll-left属性可以控制滚动条位置 -->
+    <!-- scroll-with-animation滚动添加动画过渡 -->
+    <scroll-view scroll-x="true" class="nav" scroll-left="{{navScrollLeft}}" scroll-with-animation="{{true}}">
+      <block wx:for="{{navData}}" wx:for-index="idx" wx:for-item="navItem" wx:key="idx">
+        <view class="nav-item" data-current="{{idx}}" bindtap="switchNav">
+          <view class="{{currentTab == idx ?'active':''}}">
+            <text>{{navItem.text}}</text>
+          </view>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+</view>
+
+
+<!-- 2.0  订单列表 -->
+<swiper class="tab-box" current="{{currentTab}}" duration="300" bindchange="switchTab">
+  <swiper-item wx:for="{{[0,1,2,3,4,5]}}" wx:for-item="tabItem" wx:for-index="idx" wx:key="idx" class="tab-content">
+    <view>
+      <block wx:for="{{[1, 2, 3, 4, 5,6,7,8]}}" wx:key="{{item.id}}"> 
+      <view class='bg'></view>
+        <view class='xd_time flexCenter'>
+          <view>
+            <text>下单时间： 2018-08-15  16:45</text>
+          </view>
+          <view>
+            <text class='color_y'>待评价</text>
+          </view>
+        </view>       
+        <template is="tip_verify" data="{{...item}}" />
+        <view class='pt_info flexCenter'>
+          <view class='pt_info_img flexCenter'>
+            <image src='/images/order_details/pt_header.png' />
+          </view>
+          <view class='pt_price flexCenter'>
+            <view class='pt_people_num'>
+              <text>十人团参团</text>
+            </view>
+            <view>
+              <text class='color_6'>实付</text>
+              <text>￥</text>
+              <text class='fontsize18'>188</text>
+            </view>
+          </view>
+        </view>
+        <view class='pt_btns'>
+          <view class='look_pj'>
+            <text>查看评价</text>
+          </view>
+          <view class='red_btn'>
+            <text>再次购买</text>
+          </view>
+        </view>
+        
+      </block>
+    </view>
+  </swiper-item>
+</swiper>

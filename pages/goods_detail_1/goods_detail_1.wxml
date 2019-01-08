@@ -1,0 +1,752 @@
+<!-- ------------------------- 模板  导入 ---------------------------- -->
+<import src='/templates/tip_line/tip_line.wxml' />
+<import src='/templates/tip_category_top/tip_category_top.wxml' />
+<import src='/templates/tip_group_list/tip_group_list.wxml' />
+<!-- html 富文本 转为 微信小程序所识别 -->
+<import src="../../wxParse/wxParse.wxml" />
+<!-- 将距离转换为一位小数 -->
+<wxs module="filters" src="../../utils/filters_toFix/filters_toFix.wxs"></wxs>
+<!--商品详情页面 -1-->
+
+<!-- 使用wxs 手机号码中间四位显示为*号 -->
+<wxs module="phone">
+  var toHide = function(array) {
+    var mphone = array.substring(0, 3) + '****' + array.substring(7);
+    return mphone;
+  }
+  module.exports.toHide = toHide;
+</wxs>
+
+<!-- 使用wxs 手机号码中间四位显示为*号 -->
+<wxs module="evaluateTime">
+  var formatTime = function(ymd) {
+    var ymdstr = '';
+    if (ymd) {
+      var ymdArry = ymd.split('-');
+      ymdstr = ymdArry[0].trim() + '/' + ymdArry[1].trim() + '/' + ymdArry[2].trim();
+      ymdstr = ymdstr.substring(0, 10)
+    }
+    return ymdstr;
+  }
+
+  module.exports.formatTime = formatTime;
+</wxs>
+
+
+<!-- -----------------------------  详情页面  ------------------------------------- -->
+<!-- -------------------1.0  轮播图 ------------------- -->
+<view>
+  <swiper indicator-dots="{{true}}" autoplay="{{true}}" interval="{{3000}}" duration="{{1000}}" circular="true" indicator-active-color="#fff" indicator-color="#a6aaac">
+    <block wx:for="{{details.courseImagesArry}}" wx:key="{{item.id}}">
+      <swiper-item>
+        <image src="{{item}}" class="slide-image" />
+      </swiper-item>
+      <view class='return_button'>
+      </view>
+    </block>
+  </swiper>
+</view>
+
+
+<!-- -------------------2.0  橘黄价格栏------------------- -->
+<view class='yellowBox' wx:if="{{true}}">
+  <view class='yb_left'>
+    <view class='low_price'>
+      <text class='symbol'>￥</text>
+      <text class='price'>{{details.minAmount}}</text>
+      <text>起</text>
+    </view>
+    <view class='others'>
+      <view class='old_price'>
+        <text>￥{{details.amount}}</text>
+      </view>
+      <view class='group_num'>
+        <text> {{details.minPeopleNum}}-{{details.maxPeopleNum}}人拼团</text>
+      </view>
+    </view>
+  </view>
+  <!-- 如果 endType 为 1 时，不显示截止日期 -->
+  <view wx:if="{{details.endType == 1}}">
+  </view>
+  <!-- 如果 剩余天数和小时不为0时 ，显示截止日期 -->
+  <view class='yb_right' wx:elif="{{residueTime.day&&residueTime.hou}}">
+    <view class='end_time'>
+      <view>
+        <text>距报名结束剩</text>
+      </view>
+      <view class='time_1'>
+        <text>{{residueTime.day}}</text>
+      </view>
+      <text class='fontsize10'> 天 </text>
+      <view class='time_1'>
+        <text>{{residueTime.hou}}</text>
+      </view>
+      <text class='fontsize10'> 小时</text>
+    </view>
+    <view class='class="triangle_border_left"'></view>
+  </view>
+</view>
+<!-- 如果 报名日期过了之后 ，显示已结束 -->
+<view class='yellowBox_2' wx:else>
+  <view class='yb_left'>
+    <view class='low_price'>
+      <text class='symbol'>￥</text>
+      <text class='price'>{{details.minAmount}}</text>
+      <text>起</text>
+    </view>
+    <view class='others'>
+      <view class='old_price'>
+        <text>￥{{details.amount}}</text>
+      </view>
+    </view>
+  </view>
+  <view class='yb_right'>
+    <view class='end_time'>
+      <text>距报名结束剩</text>
+      <view class='time'>
+        <text>己结束</text>
+      </view>
+    </view>
+    <view class='class="triangle_border_left"'></view>
+  </view>
+</view>
+
+
+<!-- -------------------3.0  商品信息栏-------------------  -->
+<view class='goods_info'>
+  <view class='detail_info'>
+    <view class='info_title'>
+      <view class='title_left'>
+        <view class='info_bigTitle'>
+          <text>{{details.courseName}}</text>
+        </view>
+        <view class='info_liteTitle'>
+          <text>{{details.subtitle}}</text>
+        </view>
+      </view>
+      <button open-type="share" class='share'>
+        <view class='title_right'>
+          <view class='share_img'>
+            <image src='/images/goods_detail/share.png' />
+          </view>
+          <view>
+            <text class='share'>分享</text>
+          </view>
+        </view>
+      </button>
+    </view>
+    <view class='info_detail'>
+      <view class='lesson'>
+        <text>{{details.lessontimes}}课次</text>
+      </view>
+      <view class='lesson'>
+        <text>适合{{details.minAge}}-{{details.maxAge}}岁</text>
+      </view>
+    </view>
+  </view>
+  <view class='booking_person' wx:if="{{details.buyCount}}">
+    <view class='header_icon'>
+      <block wx:for="{{details.buyUserList}}" wx:key="item.index">
+        <view class='groupingIcon' wx:if="{{index < 8}}" style='position:absolute;left:{{index*45}}rpx;z-index:{{details.buyUserList.length-index}}'>
+          <image src='{{item.userIcon}}' />
+        </view>
+      </block>
+      <view class='groupingIcon' style='position:absolute;left:{{details.buyUserList.length*45}}rpx;'>
+        <image src='/images/goods_detail/dian.png' />
+      </view>
+    </view>
+    <view class="booking_num">
+      <text>已有{{details.buyCount}}人参与</text>
+    </view>
+  </view>
+  <view class='line'></view>
+  <view class='activitis'>
+    <view class='activity' wx:if="{{details.refundTypeList}}">
+      <template is="tip_line" data="{{activity:'不支持线上退款'}}" />
+    </view>
+    <view class='activity' wx:else>
+      <template is="tip_line" data="{{activity:'课前随时退'}}" />
+    </view>
+
+    <view class='beizhu' bindtap='jumpOrg'>
+      <text>机构入驻</text>
+    </view>
+  </view>
+</view>
+
+
+<!-- ------------------- 4.0  商户广告-------------------- -->
+<view class='bg3'></view>
+  <view bindtap='locationtap'>
+    <view class='merchant_info'>
+      <view class='info_gg'>
+        <view class='merchant_logo'>
+          <image src='/images/goods_detail/location.png' />
+        </view>
+        <view class='merchant_infos'>
+          <view class='merchant_title'>
+            <text>{{details.orgInfo.name}}</text>
+            <image hidden="{{!details.isQuality}}" src='/images/goods_detail/you.png' />
+          </view>
+          <view id='location'>
+            <view class='merchant_ address'>
+              <text>{{details.orgInfo.address}}</text>
+            </view>
+            <view class='distance' wx:if="{{distance}}">
+              <text class='distanceStr'>距您{{filters.toFix(distance/1000)}}km</text>
+            </view>
+            <view wx:else></view>
+          </view>
+        </view>
+      </view>
+      <view class='more'>
+        <view class='right_arrows'>
+          <image src='/images/goods_detail/right_arrow.png' />
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='bg3'></view>
+
+
+
+
+<!-- ------------------ 5.0  正在拼课  -------------------- -->
+<view class='bg2' wx:if="{{details.groupingNum}}">
+  <view class='Spelling_lesson'>
+    <view class='sl_title'>
+      <view class='sl_title_left'>
+        <text>{{details.groupingNum}}个其他正在拼课</text>
+      </view>
+      <view class='sl_title_right' bindtap='look_all'>
+        <text>查看全部</text>
+        <image src='/images/goods_detail/more.png' class='more_img' />
+      </view>
+    </view>
+    <view class='sl_peoples' wx:if="{{details.userOpenGroupList.length<3}}">
+        <block wx:for="{{details.userOpenGroupList}}" wx:key="{{index}}">
+            <view class='sl_people'>
+              <view class='sl_people_info'>
+                <view class='sl_left'>
+                  <image src='{{item.userInfo.userIcon}}' />
+                  <text>{{phone.toHide(item.userInfo.mobile)}}</text>
+                </view>
+                <view class='sl_right'>
+                  <view class='surplus'>
+                    <view class='sl_people_num'>
+                      <text>{{item.tgPurchaseNum}}人团 还差</text>
+                      <text class='redcolor'>{{item.remainingNum}}人</text>
+                      <text>成团</text>
+                    </view>
+                    <view class='time_remaining'>
+                      <text>剩余{{item.failObj.hou}}时{{item.failObj.min}}分{{item.failObj.sec}}秒</text>
+                    </view>
+                  </view>
+                  <view class='go_Spelling'>
+                    <text>去拼课</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+        </block>
+    </view>
+    <view class='sl_peoples' wx:else>
+      <swiper autoplay="{{true}}" interval="{{3000}}" duration="{{2000}}" circular="{{true}}" vertical="{{true}}" display-multiple-items="{{3}}" class='swiperList'>
+        <block wx:for="{{details.userOpenGroupList}}" wx:key="{{index}}">
+          <swiper-item>
+            <view class='sl_people' wx:if="{{index<20}}">
+              <view class='sl_people_info'>
+                <view class='sl_left'>
+                  <image src='{{item.userInfo.userIcon}}' />
+                  <text>{{phone.toHide(item.userInfo.mobile)}}</text>
+                </view>
+                <view class='sl_right'>
+                  <view class='surplus'>
+                    <view class='sl_people_num'>
+                      <text>{{item.tgPurchaseNum}}人团 还差</text>
+                      <text class='redcolor'>{{item.remainingNum}}人</text>
+                      <text>成团</text>
+                    </view>
+                    <view class='time_remaining'>
+                      <text>剩余{{item.failObj.hou}}时{{item.failObj.min}}分{{item.failObj.sec}}秒</text>
+                    </view>
+                  </view>
+                  <view class='go_Spelling'>
+                    <text>去拼课</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+  </view>
+</view>
+
+
+<!-- 正在拼课  测试假数据 -->
+<!-- <view class='bg2' wx:if="{{true}}">
+  <view class='Spelling_lesson'>
+    <view class='sl_title'>
+      <view class='sl_title_left'>
+        <text>10人正在拼课</text>
+      </view>
+      <view class='sl_title_right' bindtap='look_all'>
+        <text>查看全部</text>
+        <image src='/images/goods_detail/more.png' class='more_img' />
+      </view>
+    </view>
+    <view class='sl_peoples' wx:if="{{10<3}}">
+      <block wx:for="{{2}}" wx:key="{{index}}">
+        <view class='sl_people'>
+          <view class='sl_people_info'>
+            <view class='sl_left'>
+              <image src='/images/goods_detail/list_header.png' />
+              <text>{{phone.toHide('13870125589')}}</text>
+            </view>
+            <view class='sl_right'>
+              <view class='surplus'>
+                <view class='sl_people_num'>
+                  <text>4人团 还差</text>
+                  <text class='redcolor'>1人</text>
+                  <text>成团</text>
+                </view>
+                <view class='time_remaining'>
+                  <text>剩余23：34：56</text>
+                </view>
+              </view>
+              <view class='go_Spelling'>
+                <text>去拼课</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+    <view class='sl_peoples' wx:else>
+      <swiper autoplay="{{true}}" interval="{{3000}}" duration="{{2000}}" circular="{{true}}" vertical="{{true}}" display-multiple-items="{{3}}" class='swiperList'>
+        <block wx:for="{{10}}" wx:key="{{index}}">
+          <swiper-item>
+            <view class='sl_people' wx:if="{{index<20}}">
+              <view class='sl_people_info'>
+                <view class='sl_left'>
+                  <image src='/images/goods_detail/list_header.png' />
+                  <text>{{phone.toHide('13870125589')}}</text>
+                </view>
+                <view class='sl_right'>
+                  <view class='surplus'>
+                    <view class='sl_people_num'>
+                      <text>3人团 还差</text>
+                      <text class='redcolor'>2人</text>
+                      <text>成团</text>
+                    </view>
+                    <view class='time_remaining'>
+                      <text>剩余23：34：56</text>
+                    </view>
+                  </view>
+                  <view class='go_Spelling'>
+                    <text>去拼课</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+  </view>
+</view> -->
+
+
+<!-- --------------------6.0  课程简介-------------------- -->
+<view class='course_introduction'>
+  <view class='title_category'>
+    <template is="tip_category_top" data="{{category:'课程简介'}}" />
+  </view>
+  <view class="m1_content">
+    <template is="wxParse" data="{{wxParseData:article.nodes}}" />
+  </view>
+</view>
+
+
+<!-- --------------------7.0 课程安排--------------------- -->
+<view class='bg3'></view>
+<view class="class_time">
+  <view class='title_category'>
+    <template is="tip_category_top" data="{{category:'课程安排'}}" />
+  </view>
+  <view class='course_plan'>
+    <view class='course_discounts'>
+      <view class='left_title'>
+        <text>课程优惠</text>
+        <view class='underline'></view>
+      </view>
+      <view class='right_title'>
+        <view>
+          <text>团购课程优惠多多，名额有限，报名丛速，原价{{details.amount}}元，现在：</text>
+        </view>
+        <view>
+          <text class='.color_6'>二人团学费</text>
+          <text class='cut_down'> 立减{{details.amount-details.coursePurchaseList[0].amount}}元</text>
+        </view>
+        <view>
+          <text class='.color_6'>三人团学费</text>
+          <text class='cut_down'> 立减{{details.amount-details.coursePurchaseList[1].amount}}元</text>
+        </view>
+        <view>
+          <text class='.color_6'>四人团学费</text>
+          <text class='cut_down'> 立减{{details.amount-details.coursePurchaseList[2].amount}}元</text>
+        </view>
+      </view>
+    </view>
+    <view class='plan flex'>
+      <view class='left_title'>
+        <text>课程安排</text>
+        <view class='underline'></view>
+      </view>
+      <view class='date'>
+        <view class='date_1'>
+          <!-- <text>每周三 </text>
+          <text> 09：30-10-30 </text> -->
+          <text>每{{teachWeek[0].weekStr}} </text>
+          <text> {{teachWeek[0].weekTime}}</text>
+        </view>
+        <!-- <view class='date_1'>
+          <text> 、周四 </text>
+          <text> 09：30-10-30</text>
+        </view> -->
+      </view>
+    </view>
+    <view class='fit_people flex'>
+      <view class='left_title'>
+        <text>适合人群</text>
+        <view class='underline'></view>
+      </view>
+      <view>
+        <text>{{details.minAge}}~{{details.maxAge}}岁</text>
+      </view>
+    </view>
+    <view class='course_time flex'>
+      <view class='left_title'>
+        <text>课程有效期</text>
+        <view class='underline'></view>
+      </view>
+      <view>
+        <text>{{beginTime}}-{{endTime}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+<view class='bg3'></view>
+
+
+
+<!-- -------------------8.0  课程评价------------------- -->
+<!-- <view class='course_evaluation' wx:if="{{details.courseEvaluate.total}}">
+  <view class='evaluation_title'>
+    <view class='title_category'>
+      <template is="tip_category_top" data="{{category:'课程评价'}}" />
+      <view class='process_num'>
+        <text>（{{details.courseEvaluate.total}}）</text>
+      </view>
+    </view>
+    <view class='good_ping'>
+      <text class='yellow'>{{details.courseEvaluate.good/details.courseEvaluate.total*100}}%</text>
+      <text>满意 </text>
+      <image src='/images/goods_detail/more.png' class='more_img' />
+    </view>
+  </view>
+  <view class='evaluation_contents'>
+    <block wx:for="{{details.courseEvaluate.evaluateList}}" wx:key="{{item.index}}">
+      <view class='user_evaluation' wx:if="{{index < 2 }}">
+        <view class='user_info'>
+          <view class='user_header'>
+            <image src='{{item.userInfoDTO.userIcon}}' />
+            <text>{{phone.toHide(item.userInfoDTO.mobile)}}</text>
+          </view>
+          <view class='valuation_time'>
+            <text>{{evaluateTime.formatTime(item.createTime)}}</text>
+          </view>
+        </view>
+        <view class='evaluation_content'>
+          <text>{{item.content}}</text>
+        </view>
+        <view class='evaluation_img'>
+          <image src='{{item.images}}' />
+        </view>
+      </view>
+    </block>
+  </view>
+</view> -->
+<!-- 测试数据 -->
+<view class='course_evaluation' wx:if="{{true}}">
+  <view class='evaluation_title'>
+    <view class='title_category'>
+      <template is="tip_category_top" data="{{category:'课程评价'}}" />
+      <view class='process_num'>
+        <text>（168）</text>
+      </view>
+    </view>
+    <view class='good_ping'>
+      <text class='yellow'>80%</text>
+      <text>满意 </text>
+      <image src='/images/goods_detail/more.png' class='more_img' />
+    </view>
+  </view>
+  <view class='evaluation_contents'>
+    <block wx:for="{{10}}" wx:key="{{item.index}}">
+      <view class='user_evaluation' wx:if="{{index < 2 }}">
+        <view class='user_info'>
+          <view class='user_header'>
+            <image src='/images/goods_detail/list_header.png' />
+            <text>{{phone.toHide('1111111111')}}</text>
+          </view>
+          <view class='valuation_time'>
+            <text>{{evaluateTime.formatTime('2019 - 01 - 03 17: 32: 52')}}</text>
+          </view>
+        </view>
+        <view class='evaluation_content'>
+          <text>课程特别棒，老师讲课很幽默 ，大概了解了编码语言，下节课就可以教编码了，很期待上课。</text>
+        </view>
+        <view class='evaluation_img'>
+          <image src='/images/goods_detail/PL_img.png' />
+        </view>
+      </view>
+    </block>
+  </view>
+</view>
+<view class='bg3'></view>
+
+
+<!-- ----------------------9.0  上课流程----------------- -->
+<view class='class_process'>
+  <view class='process_title'>
+    <view class='title_category'>
+      <template is="tip_category_top" data="{{category:'上课流程'}}" />
+    </view>
+  </view>
+  <view class='class_flow'>
+    <image src='/images/goods_detail/SKLC@2x.png' />
+  </view>
+
+</view>
+
+
+<!-- -----------------------10.0  购买按钮------------------- -->
+<view class='buy' wx:if="{{residueTime.day&&residueTime.hou}}">
+  <view class='buy_advisory' bindtap="show_call">
+    <view class='advisory_img'>
+      <image src='/images/goods_detail/zixun_btn.png' />
+    </view>
+    <view>
+      <text>咨询</text>
+    </view>
+  </view>
+  <view class='oneself_buy' bindtap="jumpBuyOnself">
+    <view>
+      <text class='fontsize14'>￥</text>
+      <text class='fontsize18'>{{details.amount}}</text>
+    </view>
+    <view>
+      <text>单独购买</text>
+    </view>
+  </view>
+  <view class='group_buy' bindtap='showModal'>
+    <view>
+      <text class='fontsize14'>￥</text>
+      <text class='fontsize18'>{{details.minAmount}}</text>
+      <text class='fontsize10'> 起</text>
+    </view>
+    <view>
+      <text>发起拼单</text>
+    </view>
+  </view>
+</view>
+<view class='buy_2' wx:else>
+  <view class='buy_advisory'>
+    <view class='advisory_img'>
+      <image src='/images/goods_detail/zixun_btn.png' />
+    </view>
+    <view bindtap="call">
+      <text>咨询</text>
+    </view>
+  </view>
+  <view class='isEnd'>
+    <view>
+      <text>已结束</text>
+    </view>
+  </view>
+</view>
+
+
+<!-- -----------------------------   弹窗  ------------------------------------------ -->
+<!-- 1.0  遮罩层---》点击 “发起拼单” 触发 “报名须知” 弹窗-->
+<modal show="{{showModal}}" height='840rpx' width="720rpx" bindcancel="modalCancel" bindconfirm='modalConfirm' catchtouchmove="preventTouchMove">
+  <view class='modal-content'>
+    <view class='tc'>
+      <view class='tc_title'>
+        <text>拼课规则</text>
+      </view>
+      <view class='close' bindtap='close_tc'>
+        <image src='/images/goods_detail/close.png' />
+      </view>
+      <view class='tc_imgs'>
+        <image src='/images/goods_detail/pkgz_TC.png' />
+
+      </view>
+      <view class='tc_btn' bindtap='showGropBuy'>
+        <text>立即发起拼课</text>
+      </view>
+    </view>
+  </view>
+</modal>
+
+
+<!-- 2.0  遮罩层---》点击 “立即发起拼课” 触发 “选课规模” 弹窗 -->
+<!-- <modal_choose choose_show="{{showGropBuy}}" height='770rpx' catchtouchmove="preventTouchMove">
+  <view class='modal-content'>
+    <view class='choose_buy'>
+      <view class='choose_price'>
+        <view class='choose_price_img'>
+          <image src='/images/goods_detail/choose_buy.png' />
+        </view>
+        <view class='choose_p'>
+          <view class='choose_pc'>
+            <text>￥</text>
+            <text>326-536</text>
+          </view>
+          <view class='scale'>
+            <text>{{select_str}} </text>
+            <text> {{join_group}}</text>
+          </view>
+        </view>
+      </view>
+      <view class='choose_scale'>
+        <view class='scale_title'>
+          <text>拼课规模</text>
+        </view>
+        <view class='scale_chooses'>
+
+          <block wx:for="{{scale_list}}" wx:key="{{item.id}}">
+            <view data-num="{{index}}" data-name="{{item.name}}" class="choose_item {{index==selectIndex ? 'checked':''}}" bindtap='select'>
+              {{item.name}}
+            </view>
+          </block>
+        </view>
+      </view>
+      <view class='choose_others'>
+        <view class="tui-menu-list">
+          <text>是否公开参团信息</text>
+          <switch bindchange="changeSwitch" checked="{{isChecked}}" color='#FF5722' class="tui-fr"></switch>
+        </view>
+        <view>
+          <text>公开后，平台其他用户也可以参与你的团了哦</text>
+        </view>
+      </view>
+      <view class='choose_btn {{redbg ? "redbg" : ""}}' bindtap="jumpBuy">
+        <text>确定</text>
+      </view>
+    </view>
+  </view>
+</modal_choose> -->
+<modal_choose choose_show="{{showGropBuy}}" height='770rpx' catchtouchmove="preventTouchMove">
+  <view class='modal-content'>
+    <view class='choose_buy'>
+      <view class='choose_price'>
+        <view class='choose_price_img'>
+          <image src='{{details.courseMainImages}}' />
+        </view>
+        <view class='choose_p'>
+          <view class='choose_pc'>
+            <text>￥</text>
+            <text>{{details.minAmount}}-{{details.maxAmount}}</text>
+          </view>
+          <view class='scale'>
+            <text>{{select_str}} </text>
+            <text> {{join_group}}</text>
+          </view>
+        </view>
+      </view>
+      <view class='choose_scale'>
+        <view class='scale_title'>
+          <text>拼课规模</text>
+        </view>
+        <view class='scale_chooses'>
+          <!-- scale_list -->
+          <block wx:for="{{details.coursePurchaseList}}" wx:key="{{item.id}}">
+            <view data-num="{{index}}" data-name="{{index+2}}人拼{{item.amount}}" class="choose_item {{index==selectIndex ? 'checked':''}}" bindtap='select'>
+              {{index+2}}人拼{{item.amount}}
+            </view>
+          </block>
+        </view>
+      </view>
+      <view class='choose_others'>
+        <view class="tui-menu-list">
+          <text>是否公开参团信息</text>
+          <switch bindchange="changeSwitch" checked="{{isChecked}}" color='#FF5722' class="tui-fr"></switch>
+        </view>
+        <view>
+          <text>公开后，平台其他用户也可以参与你的团了哦</text>
+        </view>
+      </view>
+      <view class='choose_btn {{redbg ? "redbg" : ""}}' bindtap="jumpBuy">
+        <text>确定</text>
+      </view>
+    </view>
+  </view>
+</modal_choose>
+
+
+
+
+<!-- 3.0  遮罩层---》点击 “查看全部” 触发 “拼单列表”  弹窗-->
+<modal show="{{look_all}}" height='800rpx' width="700rpx" catchtouchmove="preventTouchMove">
+  <view class='modal-content'>
+    <view class='group_list_title'>
+      <text>正在拼单</text>
+    </view>
+    <scroll-view class='list_groups' scroll-y style="height: 690rpx;">
+    <block wx:for="{{details.userOpenGroupList}}" wx:key="{{index}}"> 
+        <template is="group_list" data="{{...item}}"/>
+     </block> 
+    </scroll-view>
+  </view>
+  <view class='group_list_close' bindtap="close_list">
+    <image src='/images/goods_detail/look_all_close.png' />
+  </view>
+</modal>
+<!-- 测试数据 -->
+<!-- <modal show="{{look_all}}" height='800rpx' width="700rpx" catchtouchmove="preventTouchMove">
+  <view class='modal-content'>
+    <view class='group_list_title'>
+      <text>正在拼单</text>
+    </view>
+    <scroll-view class='list_groups' scroll-y style="height: 690rpx;">
+      <block wx:for="{{20}}" wx:key="{{index}}">
+        <template is="group_list" />
+      </block>
+    </scroll-view>
+  </view>
+  <view class='group_list_close' bindtap="close_list">
+    <image src='/images/goods_detail/look_all_close.png' />
+  </view>
+</modal> -->
+
+
+<!-- 4.0  点击 “咨询” 弹出 “是否拨打电话” 弹窗 -->
+<modal show="{{show_call}}" height='218rpx' width="480rpx" catchtouchmove="preventTouchMove" show_btns="{{true}}" phoneNumber="{{phoneNumber}}">
+  <view class='modal-content'>
+    <view class='zx_tc'>
+      <text>需要立即拨打商家电话？</text>
+    </view>
+  </view>
+</modal>
+
+<!-- <modal show="{{showCall}}" height='218rpx' width="480rpx" catchtouchmove="preventTouchMove" show_btns="{{true}}" phoneNumber="{{phoneNumber}}">
+  <view class='modal-content'>
+    <view class='zx_tc'>
+      <text>需要立即拨打客服电话？</text>
+    </view>
+  </view>
+</modal> -->
